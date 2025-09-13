@@ -143,6 +143,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+]
+
+
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
