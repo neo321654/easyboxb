@@ -1,0 +1,30 @@
+name: Notify on Develop Push
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  send-telegram-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Send Telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            🚀 New push to 'develop' branch in ${{ github.repository }}!
+            
+            Commits by: ${{ github.actor }}
+            
+            Last commit message:
+            ${{ github.event.head_commit.message }}
+            
+            See changes: https://github.com/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.sha }}
