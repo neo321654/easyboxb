@@ -12,15 +12,15 @@ from users.models import User
 # Permissions
 class IsAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.is_authenticated and request.user.role == User.Role.ADMIN
+        return request.user and request.user.is_authenticated and request.user.role == 'admin'
 
 class IsManager(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.is_authenticated and request.user.role == User.Role.MANAGER
+        return request.user and request.user.is_authenticated and request.user.role == 'manager'
 
 class IsWorker(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.is_authenticated and request.user.role == User.Role.WORKER
+        return request.user and request.user.is_authenticated and request.user.role == 'worker'
 
 # ViewSets
 class WarehouseViewSet(viewsets.ModelViewSet):
@@ -53,7 +53,7 @@ class MovementViewSet(viewsets.ModelViewSet):
         return [permissions.IsAuthenticated()]
 
     def perform_create(self, serializer):
-        movement = serializer.save(created_by=self.request.user)
+        movement = serializer.save(user=self.request.user)
         self.update_stock(movement)
 
     def update_stock(self, movement):
@@ -62,9 +62,9 @@ class MovementViewSet(viewsets.ModelViewSet):
                 warehouse=movement.warehouse,
                 product=movement.product
             )
-            if movement.movement_type == Movement.MovementType.INCOMING:
+            if movement.movement_type == 'incoming':
                 stock.quantity += movement.quantity
-            elif movement.movement_type == Movement.MovementType.OUTGOING:
+            elif movement.movement_type == 'outgoing':
                 stock.quantity -= movement.quantity
             stock.save()
 
@@ -75,7 +75,7 @@ class InventoryViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         inventory = serializer.save()
-        if inventory.status == Inventory.Status.COMPLETED:
+        if inventory.status == 'completed':
             self.update_stock_from_inventory(inventory)
 
     def update_stock_from_inventory(self, inventory):
@@ -85,7 +85,7 @@ class InventoryViewSet(viewsets.ModelViewSet):
                     warehouse=inventory.warehouse,
                     product=item.product
                 )
-                stock.quantity = item.counted_quantity
+                stock.quantity = item.counted_qty
                 stock.save()
 
 class InventoryItemViewSet(viewsets.ModelViewSet):

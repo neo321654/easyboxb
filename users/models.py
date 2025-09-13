@@ -21,29 +21,15 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
-    class Role(models.TextChoices):
-        ADMIN = 'admin', 'Admin'
-        MANAGER = 'manager', 'Manager'
-        WORKER = 'worker', 'Worker'
-
     id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
-    role = models.CharField(
-        max_length=10,
-        choices=Role.choices,
-        default=Role.WORKER,
-    )
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    password = models.CharField(max_length=128)
+    role = models.CharField(max_length=50)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email

@@ -5,12 +5,12 @@ from .models import (
 
 @admin.register(Warehouse)
 class WarehouseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'is_active')
-    list_filter = ('is_active',)
+    list_display = ('name', 'location')
     search_fields = ('name', 'location')
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
     search_fields = ('name',)
 
 @admin.register(Product)
@@ -27,9 +27,9 @@ class StockAdmin(admin.ModelAdmin):
 
 @admin.register(Movement)
 class MovementAdmin(admin.ModelAdmin):
-    list_display = ('product', 'warehouse', 'movement_type', 'quantity', 'created_by', 'created_at')
+    list_display = ('product', 'warehouse', 'movement_type', 'quantity', 'user', 'created_at')
     list_filter = ('movement_type', 'warehouse')
-    search_fields = ('product__name', 'reference')
+    search_fields = ('product__name',)
 
 class InventoryItemInline(admin.TabularInline):
     model = InventoryItem

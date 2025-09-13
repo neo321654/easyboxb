@@ -22,13 +22,11 @@ class StockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
         fields = '__all__'
-        read_only_fields = ('quantity',)
 
 class MovementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movement
         fields = '__all__'
-        read_only_fields = ('created_by',)
 
 class InventoryItemSerializer(serializers.ModelSerializer):
     class Meta:
