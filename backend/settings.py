@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "api",
     "corsheaders",
     "users",
+    "inventory",
 ]
 
 MIDDLEWARE = [
