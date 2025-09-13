@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -160,3 +161,12 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+JAZZMIN_SETTINGS = {
+    "site_title": "EasyBox Admin",
+    "site_header": "EasyBox",
+    "site_brand": "EasyBox",
+    "welcome_sign": "Welcome to EasyBox",
+    "copyright": "EasyBox Ltd.",
+}
+
